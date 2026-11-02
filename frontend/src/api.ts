@@ -1,8 +1,9 @@
 import type { RunResponse, Task, Variant } from "./types";
 
-const API_BASE =
-  (import.meta.env.VITE_API_BASE as string | undefined) ??
-  "http://localhost:8000";
+// In production the API is served from the same origin as the page, so a
+// relative base ("") -> "/api/...". In dev, Vite proxies "/api" to the backend
+// (see vite.config.ts). An explicit VITE_API_BASE still overrides both.
+const API_BASE = (import.meta.env.VITE_API_BASE as string | undefined) ?? "";
 
 export async function fetchTasks(): Promise<Task[]> {
   const res = await fetch(`${API_BASE}/api/tasks`);

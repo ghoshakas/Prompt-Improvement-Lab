@@ -4,10 +4,13 @@ Two routes: one to hand the frontend the task definitions, one to run a single
 prompt (original or improved) through Gemini.
 """
 
+import os
 import time
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 import config
@@ -75,6 +78,27 @@ def run_prompt(req: RunRequest):
         model=gemini_client.get_model_name(),
         latency_ms=latency_ms,
     )
+
+
+# --- Serve the built React app (single-service deploy) ----------------------
+# In production the frontend is built and copied into backend/static, so FastAPI
+# serves the UI at "/" and the API at "/api/*" from the same origin. These routes
+# are registered AFTER the /api routes above, so the API always takes priority.
+STATIC_DIR = os.environ.get(
+    "STATIC_DIR", os.path.join(os.path.dirname(__file__), "static")
+)
+if os.path.isdir(STATIC_DIR):
+    _assets = os.path.join(STATIC_DIR, "assets")
+    if os.path.isdir(_assets):
+        app.mount("/assets", StaticFiles(directory=_assets), name="assets")
+
+    @app.get("/{full_path:path}")
+    def serve_spa(full_path: str):
+        """Serve a real file if it exists, otherwise index.html (SPA routing)."""
+        candidate = os.path.join(STATIC_DIR, full_path)
+        if full_path and os.path.isfile(candidate):
+            return FileResponse(candidate)
+        return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 
 if __name__ == "__main__":

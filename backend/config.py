@@ -35,7 +35,8 @@ GEMINI_RETRIES: int = _int("GEMINI_RETRIES", 3)
 
 
 # --- Server ----------------------------------------------------------------
-HOST: str = os.environ.get("HOST", "127.0.0.1")
+# 0.0.0.0 so the server is reachable inside a hosting container (e.g. Render).
+HOST: str = os.environ.get("HOST", "0.0.0.0")
 PORT: int = _int("PORT", 8000)
 
 # Browser origins allowed to call the API (the Vite dev server).
