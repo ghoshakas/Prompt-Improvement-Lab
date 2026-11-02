@@ -325,5 +325,3 @@ demonstration of this recipe across five task types.
 | Frontend loads but calls fail with CORS errors | Make sure the frontend origin is in `ALLOWED_ORIGINS` and the backend is on port 8000. |
 
 ---
-
-*Built to make good prompt design something you can see, not just read about.*
