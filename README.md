@@ -9,10 +9,7 @@
 _(free instance — the first request after it's been idle can take ~50s to wake up)_
 
 See also: **[BEFORE_AFTER.md](BEFORE_AFTER.md)** (real captured outputs) ·
-**[TEST_INPUTS.md](TEST_INPUTS.md)** (15 inputs to try) ·
-**[SUBMISSION.md](SUBMISSION.md)** (project write-up & checklist)
-
-![App home](screenshots/home.png)
+**[TEST_INPUTS.md](TEST_INPUTS.md)** (15 inputs to try)
 
 ---
 
