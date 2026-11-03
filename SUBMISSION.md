@@ -2,6 +2,28 @@
 
 *Redesigning weak prompts into reliable, structured instructions.*
 
+**Author:** Akash Ghosh
+**Live demo:** https://prompt-improvement-lab.onrender.com
+**Repository:** https://github.com/ghoshakas/Prompt-Improvement-Lab
+
+> The live demo runs on a free instance that sleeps when idle, so the first request after a
+> quiet period can take ~50 seconds to wake. It also shares Google's free Gemini tier
+> (~20 requests/day), so after heavy use it may rate-limit until the daily reset.
+
+---
+
+## Submission Checklist
+
+| # | Requirement | Where it lives |
+|---|---|---|
+| 1 | README.md | [`README.md`](README.md) |
+| 2 | Working application | FastAPI + React app — [live demo](https://prompt-improvement-lab.onrender.com), run locally via `run.ps1` |
+| 3 | Original and improved prompts | [`backend/prompts.py`](backend/prompts.py) — all 5 tasks |
+| 4 | Before/after outputs | [`BEFORE_AFTER.md`](BEFORE_AFTER.md) — real captured Gemini responses |
+| 5 | Explanation of improvements | §5 and §8 below, plus the per-task `explanation` in [`backend/prompts.py`](backend/prompts.py) |
+| 6 | At least 10 test inputs | [`TEST_INPUTS.md`](TEST_INPUTS.md) — 15 inputs (3 per task) |
+| 7 | Screenshots / demo / live URL | [live demo](https://prompt-improvement-lab.onrender.com) + [`screenshots/`](screenshots/) |
+
 ---
 
 ## 1. Project Overview
@@ -172,6 +194,15 @@ summaries, valid JSON for classification and extraction, a single clean rewrite,
 and on-brief marketing copy — whereas the lazy prompts vary in length, structure,
 and tone from run to run. The side-by-side layout makes the value of prompt
 engineering obvious within a single click.
+
+**Real captured before/after outputs are recorded in [`BEFORE_AFTER.md`](BEFORE_AFTER.md).**
+The sharpest example is Extraction: given an order with no year on the date, the improved
+prompt returned schema-exact JSON with `"order_date": null` — honestly refusing to guess —
+while the lazy prompt returned a loose bulleted paragraph. More inputs to reproduce these
+results are in [`TEST_INPUTS.md`](TEST_INPUTS.md).
+
+![App home](screenshots/home.png)
+![Before / after comparison](screenshots/run-comparison.png)
 
 ## 12. Future Work
 
