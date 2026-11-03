@@ -1,9 +1,4 @@
-"""Central configuration for the Prompt Improvement Lab backend.
 
-All tunable settings live here in one place. Values can be overridden via
-environment variables (loaded from backend/.env), but every one has a sensible
-default so the app runs with just a GEMINI_API_KEY set.
-"""
 
 import os
 
@@ -32,6 +27,8 @@ GEMINI_TIMEOUT_MS: int = _int("GEMINI_TIMEOUT_MS", 30000)
 
 # How many times to attempt a request (handles transient 503 "high demand").
 GEMINI_RETRIES: int = _int("GEMINI_RETRIES", 3)
+
+GEMINI_THINKING_BUDGET: int = _int("GEMINI_THINKING_BUDGET", 0)
 
 
 # --- Server ----------------------------------------------------------------

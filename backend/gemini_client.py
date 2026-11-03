@@ -1,9 +1,4 @@
-"""The only module that talks to Gemini.
 
-Keeping the SDK touch-points in one file means that if the model name changes
-(Google renames them often) or we ever swap providers, there's exactly one
-place to edit. All tunable values come from config.py.
-"""
 
 import config
 
@@ -42,10 +37,22 @@ def _get_client():
 def generate(prompt: str) -> str:
     """Send a single prompt to Gemini and return the text response."""
     client = _get_client()
-    try:
-        response = client.models.generate_content(
-            model=config.GEMINI_MODEL, contents=prompt
+    from google.genai import types
+
+    gen_config = types.GenerateContentConfig(
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=config.GEMINI_THINKING_BUDGET
         )
+    )
+    try:
+        try:
+            response = client.models.generate_content(
+                model=config.GEMINI_MODEL, contents=prompt, config=gen_config
+            )
+        except TypeError:
+            response = client.models.generate_content(
+                model=config.GEMINI_MODEL, contents=prompt
+            )
     except Exception as exc:  # the SDK raises a variety of error types
         msg = str(exc)
         if "503" in msg or "UNAVAILABLE" in msg:
