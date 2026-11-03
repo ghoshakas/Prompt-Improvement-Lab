@@ -17,5 +17,7 @@ services:
     envVars:
       - key: GEMINI_API_KEY
         sync: false        # set this secret in the Render dashboard
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
       - key: PYTHON_VERSION
         value: "3.12"
