@@ -1,0 +1,21 @@
+# Render Blueprint — deploys the whole app (React frontend + FastAPI backend)
+# as a SINGLE web service. The frontend is built and served by FastAPI, so the
+# UI and the /api/* routes share one URL.
+#
+# To deploy:  Render Dashboard -> New -> Blueprint -> pick this repo.
+# You will be prompted for GEMINI_API_KEY during the first deploy.
+services:
+  - type: web
+    name: prompt-improvement-lab
+    runtime: python
+    plan: free
+    buildCommand: |
+      cd frontend && npm ci && npm run build
+      rm -rf ../backend/static && mv dist ../backend/static
+      cd ../backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false        # set this secret in the Render dashboard
+      - key: PYTHON_VERSION
+        value: "3.12"
